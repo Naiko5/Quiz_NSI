@@ -11,6 +11,20 @@ html, body {
     font-family: "Iosevka Charon", monospace;
     font-weight: 300;
     font-style: normal;
+    position: relative;
+}
+
+#score_display {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    border: 3px solid #000000;
+    background-color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #quiz_cube {

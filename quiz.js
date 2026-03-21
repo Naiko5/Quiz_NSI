@@ -13,10 +13,41 @@ let questions = [
         question: "Quel est le symbole chimique de l'eau ?",
         reponses: ["H2O", "CO2"],
         bonneReponse: 0
+    },
+    {
+        question: "Quel est le plus grand pays du monde en termes de superficie ?",
+        reponses: ["Russie", "Canada", "Chine", "États-Unis"],
+        bonneReponse: 0
+    }, 
+    {
+        question: "Quel est le plus grand désert du monde ?",
+        reponses: ["Sahara", "Désert de Gobi", "Désert de l'Antarctique"],
+        bonneReponse: 2
+    },
+    {
+        question: "Quel est le plus grand mammifère terrestre ?",
+        reponses: ["Éléphant d'Afrique", "Girafe", "Rhinocéros blanc"],
+        bonneReponse: 0
+    },
+    {
+        question: "Quel est le plus grand fleuve du monde ?",
+        reponses: ["Nil", "Amazonie", "Yangtsé"],
+        bonneReponse: 1
+    },
+    {
+        question: "Quel est le plus grand lac d'eau douce du monde ?",
+        reponses: ["Lac Supérieur", "Lac Victoria", "Lac Baïkal"],
+        bonneReponse: 1
     }
 ];
 
 let currentQuestionIndex = 0;
+let score = 0;
+
+// Function to update score display
+function updateScoreDisplay() {
+    document.getElementById('score_text').textContent = `Score: ${score}`;
+}
 
 // Function to display the current question
 function displayQuestion() {
@@ -46,11 +77,8 @@ function displayQuestion() {
 }
 
 // Function to handle answer selection
-function handleAnswer(selectedIndex) {
-    const currentQuestion = questions[currentQuestionIndex];
-    
-    if (selectedIndex === currentQuestion.bonneReponse) {
-        console.log('Bonne réponse !');
+func    score++;
+        updateScoreDisplay();
     } else {
         console.log('Mauvaise réponse !');
     }
@@ -59,6 +87,35 @@ function handleAnswer(selectedIndex) {
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
         displayQuestion();
+    } else {
+        console.log('Quiz terminé !');
+        displayFinalScore();
+    }
+}
+
+// Function to display final score
+function displayFinalScore() {
+    const quizCube = document.getElementById('quiz_cube');
+    quizCube.innerHTML = '';
+    quizCube.style.justifyContent = 'center';
+    
+    const finalScoreText = document.createElement('div');
+    finalScoreText.style.fontSize = '72px';
+    finalScoreText.style.fontWeight = 'bold';
+    finalScoreText.style.color = '#000000';
+    finalScoreText.style.textAlign = 'center';
+    finalScoreText.style.marginBottom = '20px';
+    finalScoreText.textContent = `${score}/${questions.length}`;
+    
+    const messageText = document.createElement('div');
+    messageText.style.fontSize = '24px';
+    messageText.style.fontWeight = '500';
+    messageText.style.color = '#000000';
+    messageText.style.textAlign = 'center';
+    messageText.textContent = 'Quiz terminé !';
+    
+    quizCube.appendChild(finalScoreText);
+    quizCube.appendChild(messageText);   displayQuestion();
     } else {
         console.log('Quiz terminé !');
         document.getElementById('question_cube').textContent = 'Quiz terminé !';
