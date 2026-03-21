@@ -33,9 +33,9 @@ html, body {
 
 button:hover{
     cursor : pointer;
-    background-color: aquamarine !important;
+    background-color: #fff000 !important;
     transition: 0.3s;
-    border-color:aquamarine;
+    border-color:#000000 !important;
     transition: 0.2s;
 }   
 #reponses_cube {
