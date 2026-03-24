@@ -18,7 +18,7 @@ let questions = [
         question: "Quel est le plus grand pays du monde en termes de superficie ?",
         reponses: ["Russie", "Canada", "Chine", "États-Unis"],
         bonneReponse: 0
-    }, 
+    },
     {
         question: "Quel est le plus grand désert du monde ?",
         reponses: ["Sahara", "Désert de Gobi", "Désert de l'Antarctique"],
@@ -44,46 +44,50 @@ let questions = [
 let currentQuestionIndex = 0;
 let score = 0;
 
-// Function to update score display
 function updateScoreDisplay() {
-    document.getElementById('score_text').textContent = `Score: ${score}`;
+    const scoreText = document.getElementById('score_text');
+    if (scoreText) {
+        scoreText.textContent = `Score: ${score}`;
+    }
 }
 
-// Function to display the current question
 function displayQuestion() {
+    if (currentQuestionIndex >= questions.length) {
+        displayFinalScore();
+        return;
+    }
+
     const currentQuestion = questions[currentQuestionIndex];
-    
-    // Display the question text
+
     const questionCube = document.getElementById('question_cube');
-    questionCube.textContent = currentQuestion.question;
-    
-    // Clear previous responses
     const reponsesCube = document.getElementById('reponses_cube');
+
+    if (!questionCube || !reponsesCube) return;
+
+    questionCube.textContent = currentQuestion.question;
     reponsesCube.innerHTML = '';
-    
-    // Create a button for each possible answer
+
     currentQuestion.reponses.forEach((reponse, index) => {
         const button = document.createElement('button');
         button.className = 'reponse_button';
         button.textContent = reponse;
         button.dataset.index = index;
-        
-        button.addEventListener('click', () => {
-            handleAnswer(index);
-        });
-        
+
+        button.addEventListener('click', () => handleAnswer(index));
+
         reponsesCube.appendChild(button);
     });
 }
 
-// Function to handle answer selection
-func    score++;
+function handleAnswer(selectedIndex) {
+    const currentQuestion = questions[currentQuestionIndex];
+    if (selectedIndex === currentQuestion.bonneReponse) {
+        score++;
         updateScoreDisplay();
     } else {
         console.log('Mauvaise réponse !');
     }
-    
-    // Move to the next question
+
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
         displayQuestion();
@@ -93,12 +97,13 @@ func    score++;
     }
 }
 
-// Function to display final score
 function displayFinalScore() {
     const quizCube = document.getElementById('quiz_cube');
+    if (!quizCube) return;
+
     quizCube.innerHTML = '';
     quizCube.style.justifyContent = 'center';
-    
+
     const finalScoreText = document.createElement('div');
     finalScoreText.style.fontSize = '72px';
     finalScoreText.style.fontWeight = 'bold';
@@ -106,22 +111,19 @@ function displayFinalScore() {
     finalScoreText.style.textAlign = 'center';
     finalScoreText.style.marginBottom = '20px';
     finalScoreText.textContent = `${score}/${questions.length}`;
-    
+
     const messageText = document.createElement('div');
     messageText.style.fontSize = '24px';
     messageText.style.fontWeight = '500';
     messageText.style.color = '#000000';
     messageText.style.textAlign = 'center';
     messageText.textContent = 'Quiz terminé !';
-    
+
     quizCube.appendChild(finalScoreText);
-    quizCube.appendChild(messageText);   displayQuestion();
-    } else {
-        console.log('Quiz terminé !');
-        document.getElementById('question_cube').textContent = 'Quiz terminé !';
-        document.getElementById('reponses_cube').innerHTML = '';
-    }
+    quizCube.appendChild(messageText);
 }
 
-// Display the first question when the page loads
-document.addEventListener('DOMContentLoaded', displayQuestion);
+document.addEventListener('DOMContentLoaded', () => {
+    updateScoreDisplay();
+    displayQuestion();
+});
