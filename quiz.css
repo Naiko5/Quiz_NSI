@@ -5,70 +5,387 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: auto;
-    width: auto;
-    background-color: #dcdcdc;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-family: "Iosevka Charon", monospace;
     font-weight: 300;
     font-style: normal;
     position: relative;
+    margin: 0;
+    padding: 0;
 }
 
 #score_display {
     position: fixed;
     top: 20px;
     right: 20px;
-    border: 3px solid #000000;
-    background-color: #ffffff;
+    border: 3px solid #ffffff;
+    background-color: rgba(255, 255, 255, 0.95);
     padding: 15px 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 20px;
     font-weight: 500;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    color: #667eea;
+}
+
+/* Screen Management */
+.screen {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.6s ease-in-out;
+    pointer-events: none;
+}
+
+.screen.active {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
+    pointer-events: auto;
+}
+
+.screen.exit-left {
+    transform: translateX(-100%);
+}
+
+/* Start Screen Specific */
+#start_screen {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+
+#start_screen.active {
+    position: relative;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    border-right: 3px solid rgba(255, 255, 255, 0.3);
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+.sidebar_title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.subjects_list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.subject_item {
+    padding: 15px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 400;
+    color: #667eea;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.subject_item:hover:not(.disabled) {
+    background-color: #ffd700;
+    transform: translateX(5px);
+    border-color: #ffffff;
+    color: #667eea;
+    font-weight: 500;
+}
+
+.subject_item.active {
+    background-color: #ffd700;
+    border-color: #ffffff;
+    font-weight: 500;
+    color: #667eea;
+}
+
+.subject_item.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Home Content */
+#home_content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 0 40px;
+}
+
+#home_content h1 {
+    font-size: 56px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#bio_cube {
+    width: 500px;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    border: 3px solid #ffd700;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+#bio_cube p {
+    font-size: 20px;
+    color: #667eea;
+    margin: 0;
+    font-weight: 400;
+}
+
+.start_button {
+    padding: 15px 50px;
+    font-size: 20px;
+    font-weight: 500;
+    background-color: #ffd700;
+    color: #667eea;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Iosevka Charon", monospace;
+}
+
+.start_button:hover {
+    background-color: #ffed4e !important;
+    transform: scale(1.05);
+    border-color: #ffffff !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.start_button:active {
+    transform: scale(0.98);
+}
+
+/* Quiz Screen */
+#quiz_screen {
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
 }
 
 #quiz_cube {
-    width: 400px;
-    height: 300px;
-    border-radius: 10px;
-    padding: 2px;
-    background-color: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    border: 3px solid #ffd700;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
     align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-height: 80vh;
+    overflow-y: auto;
 }
+
 #question_cube {
     display: flex;
     flex-direction: column;
     height: auto;
     text-align: center;
+    width: 100%;
+    font-size: 22px;
+    font-weight: 500;
+    color: #667eea;
 }
 
-button:hover{
-    cursor : pointer;
-    background-color: #fff000 !important;
+button:hover {
+    cursor: pointer;
+    background-color: #ffed4e !important;
     transition: 0.3s;
-    border-color:#000000 !important;
-    transition: 0.2s;
-}   
+    border-color: #ffffff !important;
+}
+
 #reponses_cube {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
     justify-content: center;
-    max-height: 200px;
-    width: 400px;
+    width: 100%;
 }
 
-#reponse_1 , #reponse_2 , #reponse_3, .reponse_button {
-    height: 50px;
-    width: 75%;
+#reponse_1, #reponse_2, #reponse_3, .reponse_button {
+    height: auto;
+    padding: 15px 20px;
+    min-height: 50px;
+    width: 100%;
     border-radius: 10px;
-    border: 1px solid #000000;
-    padding: 2px;
-    background-color: #dcdcdc;
+    border: 2px solid #667eea;
+    background-color: #f3f0ff;
     cursor: pointer;
-    align-items: start;
+    align-items: center;
+    justify-content: flex-start;
+    transition: all 0.3s ease;
+    font-family: "Iosevka Charon", monospace;
+    font-size: 16px;
+    color: #667eea;
+    font-weight: 400;
+    display: flex;
+}
+
+.reponse_button:hover {
+    background-color: #ffd700 !important;
+    border-color: #667eea !important;
+    transform: translateX(5px);
+    font-weight: 500;
+}
+
+.reponse_button:active {
+    transform: translateX(3px);
+}
+
+/* Results Screen */
+#results_screen {
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+#results_content {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+#final_score_section {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    border: 3px solid #ffd700;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+#final_score_text {
+    font-size: 80px;
+    font-weight: 700;
+    color: #667eea;
+    margin: 0 0 15px 0;
+}
+
+#final_message {
+    font-size: 24px;
+    font-weight: 500;
+    color: #667eea;
+}
+
+#answers_comparison {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.answer_item {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    border-left: 5px solid #667eea;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.answer_item.correct {
+    border-left-color: #4ade80;
+}
+
+.answer_item.incorrect {
+    border-left-color: #ef4444;
+}
+
+.answer_question {
+    font-size: 16px;
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.answer_detail {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.answer_detail.correct-text {
+    color: #4ade80;
+    font-weight: 500;
+}
+
+.answer_detail.incorrect-text {
+    color: #ef4444;
+    font-weight: 500;
+}
+
+#results_buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.results_button {
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #ffd700;
+    color: #667eea;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Iosevka Charon", monospace;
+}
+
+.results_button:hover {
+    background-color: #ffed4e !important;
+    transform: scale(1.05);
+    border-color: #ffffff !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.results_button:active {
+    transform: scale(0.98);
 }

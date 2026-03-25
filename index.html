@@ -12,18 +12,58 @@
     <span id='score_text'>Score: 0</span>
   </div>
   
-  <h1> Bonjour, ceci est le quiz de la decennie.</h1>
-  <p>[Matière en cours à insérer]</p>
-  <div id = 'quiz_cube'>
-    
-    <div id = 'question_cube'>
-      Question 1
-    </div>     
-    
-    <div id = 'reponses_cube'>
+  <!-- Start Screen -->
+  <div id='start_screen' class='screen active'>
+    <div id='sidebar'>
+      <div class='sidebar_title'>Sujets</div>
+      <div class='subjects_list'>
+        <div class='subject_item active' data-subject='Culture Générale'>Culture Générale</div>
+        <div class='subject_item disabled' data-subject='Mathématiques'>Mathématiques</div>
+        <div class='subject_item disabled' data-subject='Histoire'>Histoire</div>
+        <div class='subject_item disabled' data-subject='Géographie'>Géographie</div>
+        <div class='subject_item disabled' data-subject='Sciences'>Sciences</div>
+      </div>
     </div>
     
-  </div>      
+    <div id='home_content'>
+      <h1>Bienvenue</h1>
+      <div id='bio_cube'>
+        <p>[bio to insert]</p>
+      </div>
+      <button id='start_btn' class='start_button'>Commencer</button>
+    </div>
+  </div>
+  
+  <!-- Quiz Screen -->
+  <div id='quiz_screen' class='screen'>
+    <div id='quiz_cube'>
+      <div id = 'question_cube'>
+        Question 1
+      </div>     
+      
+      <div id = 'reponses_cube'>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Results Screen -->
+  <div id='results_screen' class='screen'>
+    <div id='results_content'>
+      <div id='final_score_section'>
+        <div id='final_score_text'>0/0</div>
+        <div id='final_message'>Quiz terminé !</div>
+      </div>
+      
+      <div id='answers_comparison'>
+      </div>
+      
+      <div id='results_buttons'>
+        <button id='view_answers_btn' class='results_button'>Voir les réponses</button>
+        <button id='return_home_btn' class='results_button'>Retour à l'accueil</button>
+      </div>
+    </div>
+  </div>
+  
   <script src="quiz.js"></script>
 </body>
 </html>
